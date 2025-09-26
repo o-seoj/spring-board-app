@@ -16,7 +16,7 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     password: abc12345a
-    url: jdbc:oracle:thin:@//3.38.138.147:1522:XEPDB1
+    url: jdbc:oracle:thin:@//3.38.138.147:1522/XEPDB1
     username: os3754
   devtools:
     livereload:
