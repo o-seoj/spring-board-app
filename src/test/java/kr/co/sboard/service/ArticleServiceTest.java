@@ -2,9 +2,11 @@ package kr.co.sboard.service;
 
 import kr.co.sboard.dto.ArticleDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class ArticleServiceTest {
     private ArticleService articleService;
 
