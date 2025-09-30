@@ -3,12 +3,15 @@ package kr.co.sboard.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.sboard.dto.ArticleDTO;
 import kr.co.sboard.dto.FileDTO;
+import kr.co.sboard.dto.PageRequestDTO;
+import kr.co.sboard.dto.PageResponseDTO;
 import kr.co.sboard.repository.ArticleRepository;
 import kr.co.sboard.service.ArticleService;
 import kr.co.sboard.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +27,10 @@ public class ArticleController {
     private final FileService fileService;
 
     @GetMapping("/article/list")
-    public String list(){
-        return "article/list";
+    public String list(Model model, PageRequestDTO pageRequestDTO) {
+       PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
+       model.addAttribute(pageResponseDTO);
+       return "article/list";
     }
 
     @GetMapping("/article/modify")
@@ -33,8 +38,14 @@ public class ArticleController {
         return "article/modify";
     }
 
-    @GetMapping("/article/searchList")
-    public String searchList(){
+    @GetMapping("/article/search")
+    public String searchList(PageRequestDTO pageRequestDTO, Model model){
+
+        log.info("pageRequestDTO = {}",pageRequestDTO);
+
+        PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
+        model.addAttribute(pageResponseDTO);
+
         return "article/searchList";
     }
 
