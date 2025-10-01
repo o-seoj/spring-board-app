@@ -2,14 +2,17 @@ package kr.co.sboard.repository;
 
 import com.querydsl.core.Tuple;
 import kr.co.sboard.dto.PageRequestDTO;
+import kr.co.sboard.entity.Article;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,5 +34,16 @@ class ArticleRepositoryTest {
 
        System.out.println(tupleList);
 
+    }
+
+    @Test
+    @Transactional
+    void test2() {
+        Optional<Article> optArticle = articleRepository.findById(7);
+
+        if(optArticle.isPresent()) {
+            Article article = optArticle.get();
+            System.out.println(article);
+        }
     }
 }

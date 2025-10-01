@@ -5,6 +5,7 @@ import kr.co.sboard.dto.ArticleDTO;
 import kr.co.sboard.dto.FileDTO;
 import kr.co.sboard.dto.PageRequestDTO;
 import kr.co.sboard.dto.PageResponseDTO;
+import kr.co.sboard.entity.Article;
 import kr.co.sboard.repository.ArticleRepository;
 import kr.co.sboard.service.ArticleService;
 import kr.co.sboard.service.FileService;
@@ -50,7 +51,11 @@ public class ArticleController {
     }
 
     @GetMapping("/article/view")
-    public String view(){
+    public String view(int ano, Model model){
+        log.info("ano = {}",ano);
+
+        ArticleDTO articleDTO = articleService.getArticle(ano);
+        model.addAttribute(articleDTO);
         return "article/view";
     }
 
