@@ -3,14 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.sboard.mapper.CommentMapper">
-<!--    <insert id="insert">-->
-<!--        INSERT INTO SB_COMMENT-->
-<!--        (ANO, CONTENT, WRITER, REG_IP, WDATE)-->
-<!--        VALUES-->
-<!--        (#{ano}, #{content}, #{writer}, #{reg_ip}, SYSDATE)-->
-<!--        RETURNING cno INTO #{cno}-->
-<!--    </insert>-->
-    <insert id="insert" parameterType="kr.co.sboard.dto.CommentDTO" keyProperty="cno">
+    <insert id="insert" parameterType="kr.co.sboard.dto.CommentDTO" keyProperty="cno" keyColumn="CNO">
         INSERT INTO SB_COMMENT
         (ANO, CONTENT, WRITER, REG_IP, WDATE)
         VALUES
@@ -19,7 +12,10 @@
 
 
     <select id="select" resultType="kr.co.sboard.dto.CommentDTO" >
-        select * from sb_comment where cno = #{cno}
+        select c.*, u.nick from sb_comment c
+        join sb_user u
+        on c.writer = u.usid
+        where cno = #{cno}
     </select>
 
     <select id="selectAll" resultType="kr.co.sboard.dto.CommentDTO">

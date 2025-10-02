@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.sboard.mapper.ArticleMapper">
+
+    <sql id="searchWhere">
+        <where>
+            <if test="pageRequestDTO.searchType != null and pageRequestDTO.keyword != ''">
+                <choose>
+                    <when test="pageRequestDTO.searchType == 'title'">
+                        and a.title like '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'content'">
+                        and a.content like '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                    <when test="pageRequestDTO.searchType == 'writer'">
+                        and u.nick like '%' || #{pageRequestDTO.keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+
+    </sql>
+
+    <select id="selectAll" resultType="kr.co.sboard.dto.ArticleDTO">
+        select
+            *
+        from sb_article a
+        join sb_user u
+        on a.writer = u.usid
+        <include refid="searchWhere"/>
+        order by a.ano desc
+        offset #{pageRequestDTO.offset} rows
+        fetch next #{pageRequestDTO.size} rows only
+    </select>
+
+    <select id="selectCountTotal" resultType="int">
+        select count(*) from sb_article a
+        join sb_user u
+        on a.writer = u.usid
+        <include refid="searchWhere"/>
+    </select>
+
+
+</mapper>
